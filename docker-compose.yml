@@ -1,0 +1,44 @@
+version: '3'
+services:
+  httpd:
+    build: ./docker/httpd/
+    image: httpd24
+    container_name: 'httpd'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - app-data:/var/www/
+
+  php:
+    build: ./docker/php/
+    image: php72
+    container_name: 'php'
+    ports:
+      - '9000:9000'
+    volumes:
+      - app-data:/var/www/
+
+  npm:
+    build: ./docker/npm/
+    image: node911
+    container_name: 'npm'
+    tty: true
+    volumes:
+      - app-data:/var/www/
+
+  mysql:
+    build: ./docker/mysql/
+    image: mysql57
+    container_name: 'mysql'
+    env_file: ./docker/mysql/.env
+    ports:
+      - '3306:3306'
+
+volumes:
+  app-data:
+    driver_opts:
+      type: none
+      device: ${PWD}/www/
+      o: bind
+
