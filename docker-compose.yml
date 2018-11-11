@@ -19,6 +19,10 @@ services:
       - '9000:9000'
     volumes:
       - app-data:/var/www/www.example.com/
+    depends_on:
+      - mysql
+      - postgres
+      - redis
 
   node:
     image: reflet/docker-node9.11
